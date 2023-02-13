@@ -1,6 +1,7 @@
 package com.natan.dscatalog.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.natan.dscatalog.dto.CategoryDTO;
 import com.natan.dscatalog.entities.Category;
 import com.natan.dscatalog.repositories.CategoryRepository;
+import com.natan.dscatalog.services.exceptions.EntityNotFoundException;
 
 
 
@@ -23,5 +25,12 @@ public class CategoryService {
 	public List<CategoryDTO> findAll(){
 		List<Category> list = repository.findAll();
 		return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
+	}
+	
+	@Transactional(readOnly = true)
+	public CategoryDTO findById(Long id) {
+		Optional<Category> obj = repository.findById(id);
+		Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+		return new CategoryDTO(entity);
 	}
 }
