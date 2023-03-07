@@ -6,13 +6,20 @@ import java.util.Set;
 
 import com.natan.dscatalog.entities.User;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class UserDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	public Long id;
+	
+	@NotBlank(message = "Campo obrigatório!")
 	public String firstName;
 	public String lastName;
+	
+	@Email(message = "Favor entrar com email válido.")
 	public String email;
 	
 	Set<RoleDTO> roles = new HashSet<>();
