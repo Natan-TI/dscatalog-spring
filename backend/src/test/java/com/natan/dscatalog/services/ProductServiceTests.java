@@ -3,6 +3,8 @@ package com.natan.dscatalog.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,8 +29,6 @@ import com.natan.dscatalog.repositories.ProductRepository;
 import com.natan.dscatalog.services.exceptions.DatabaseException;
 import com.natan.dscatalog.services.exceptions.ResourceNotFoundException;
 import com.natan.dscatalog.tests.Factory;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @ExtendWith(SpringExtension.class)
 public class ProductServiceTests {
@@ -67,11 +67,11 @@ public class ProductServiceTests {
 		Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(product));
 		Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 		
-		Mockito.when(repository.getReferenceById(existingId)).thenReturn(product);
-		Mockito.when(repository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
+		Mockito.when(repository.getOne(existingId)).thenReturn(product);
+		Mockito.when(repository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
 		
-		Mockito.when(catRepository.getReferenceById(existingId)).thenReturn(category);
-		Mockito.when(catRepository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
+		Mockito.when(catRepository.getOne(existingId)).thenReturn(category);
+		Mockito.when(catRepository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
 		
 		Mockito.doNothing().when(repository).deleteById(existingId);
 		Mockito.doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(nonExistingId);
@@ -84,7 +84,7 @@ public class ProductServiceTests {
 			service.update(nonExistingId, dto);
 		});
 		
-		Mockito.verify(repository).getReferenceById(nonExistingId);
+		Mockito.verify(repository).getOne(nonExistingId);
 	}
 	
 	@Test
@@ -92,7 +92,7 @@ public class ProductServiceTests {
 		ProductDTO result = service.update(existingId, dto);
 		
 		Assertions.assertNotNull(result);
-		Mockito.verify(repository).getReferenceById(existingId);
+		Mockito.verify(repository).getOne(existingId);
 	}
 	
 	@Test

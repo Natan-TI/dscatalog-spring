@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.natan.dscatalog.entities.User;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import com.natan.dscatalog.entities.User;
 
 public class UserDTO implements Serializable{
 	

@@ -2,6 +2,8 @@ package com.natan.dscatalog.resources;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +22,6 @@ import com.natan.dscatalog.dto.UserDTO;
 import com.natan.dscatalog.dto.UserInsertDTO;
 import com.natan.dscatalog.dto.UserUpdateDTO;
 import com.natan.dscatalog.services.UserService;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/users")
